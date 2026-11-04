@@ -38,18 +38,49 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
+        working-directory: ./src
         run: composer install --no-interaction --prefer-dist
 
+      - name: Copy environment file
+        working-directory: ./src
+        run: cp .env.example .env || true
+
+      - name: Generate application key
+        working-directory: ./src
+        run: php artisan key:generate --force
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: conecta
+          DB_USERNAME: conecta
+          DB_PASSWORD: password
+
+      - name: Run migrations
+        working-directory: ./src
+        run: php artisan migrate --force
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: conecta
+          DB_USERNAME: conecta
+          DB_PASSWORD: password
+
       - name: Run Pint
+        working-directory: ./src
         run: vendor/bin/pint --test
 
       - name: Run PHPStan / Larastan
+        working-directory: ./src
         run: vendor/bin/phpstan analyse --no-interaction || true
 
       - name: Run Composer audit
+        working-directory: ./src
         run: composer audit || true
 
       - name: Run tests
+        working-directory: ./src
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
