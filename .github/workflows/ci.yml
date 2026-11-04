@@ -43,7 +43,7 @@ jobs:
 
       - name: Copy environment file
         working-directory: ./src
-        run: cp .env.example .env || true
+        run: cp .env.example .env
 
       - name: Generate application key
         working-directory: ./src
