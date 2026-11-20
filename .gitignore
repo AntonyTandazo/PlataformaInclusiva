@@ -33,3 +33,8 @@ docker-compose.override.yml
 # Bootstrap cache
 bootstrap/cache/*.php
 bootstrap/cache/.gitignore
+
+# Solicitado por el usuario
+.atl
+docs/
+AGENTS.md
